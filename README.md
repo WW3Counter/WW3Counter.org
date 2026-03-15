@@ -6,7 +6,6 @@
 
 A tongue-in-cheek AI-powered index that scans geopolitical news headlines and generates a "World War III Probability" percentage — powered by Claude AI.
 
-**⚠️ This is satire / entertainment. Not a real threat assessment.**
 
 ## How It Works
 
