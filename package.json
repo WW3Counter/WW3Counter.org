@@ -1,0 +1,13 @@
+{
+  "name": "ww3-index",
+  "version": "1.0.0",
+  "description": "AI-powered WW3 Probability Index — for entertainment only",
+  "type": "module",
+  "scripts": {
+    "update": "node scripts/update-index.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "rss-parser": "^3.13.0"
+  }
+}
