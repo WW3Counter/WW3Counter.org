@@ -1,0 +1,35 @@
+name: Update WW3 Index
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Every 6 hours
+  workflow_dispatch:          # Manual trigger
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run PRED-7X updater
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/update-index.js
+
+      - name: Commit & push updated index
+        run: |
+          git config user.name "PRED-7X Bot"
+          git config user.email "pred7x@ww3counter.bot"
+          git add docs/data/index.json docs/data/history.json
+          git diff --staged --quiet || git commit -m "🎛️ Index update: $(date -u '+%Y-%m-%d %H:%M UTC')"
+          git push
