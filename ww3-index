@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WW3 PROBABILITY INDEX — PRED-7X</title>
+<meta name="description" content="AI-powered WW3 Probability Index by PRED-7X. Satirical geopolitical threat assessment. For entertainment only.">
+<meta property="og:title" content="WW3 Probability Index — PRED-7X">
+<meta property="og:description" content="Real-time AI-powered global threat assessment. For entertainment only.">
+<meta property="og:image" content="assets/pred7x.jpeg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700;900&family=Chakra+Petch:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+
+  :root {
+    --bg: #0a0a0f;
+    --panel: #0d0d14;
+    --border: #1a1a2e;
+    --cyan: #00e5ff;
+    --red: #ff1744;
+    --amber: #ffab00;
+    --green: #00e676;
+    --dim: #3a3a5c;
+    --text: #c8c8e0;
+    --glow-cyan: 0 0 20px rgba(0,229,255,0.3), 0 0 60px rgba(0,229,255,0.1);
+    --glow-red: 0 0 20px rgba(255,23,68,0.4), 0 0 60px rgba(255,23,68,0.15);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Chakra Petch', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Scanline overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.08) 2px,
+      rgba(0,0,0,0.08) 4px
+    );
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Grid background */
+  .grid-bg {
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    padding: 40px 0 20px;
+  }
+
+  .header-brand {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: 0.75rem;
+    letter-spacing: 6px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    text-shadow: var(--glow-cyan);
+  }
+
+  .header-title {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    letter-spacing: 3px;
+    color: #fff;
+    text-transform: uppercase;
+  }
+
+  .header-sub {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+    margin-top: 8px;
+    letter-spacing: 2px;
+  }
+
+  /* Main score panel */
+  .score-panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 40px 20px;
+    margin: 30px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .score-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+    opacity: 0.6;
+  }
+
+  .score-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 4px;
+    color: var(--dim);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .score-number {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 900;
+    font-size: clamp(4rem, 15vw, 8rem);
+    line-height: 1;
+    color: var(--red);
+    text-shadow: var(--glow-red);
+    transition: color 0.5s, text-shadow 0.5s;
+  }
+
+  .score-number.calm { color: var(--green); text-shadow: 0 0 20px rgba(0,230,118,0.4); }
+  .score-number.tense { color: var(--amber); text-shadow: 0 0 20px rgba(255,171,0,0.4); }
+  .score-number.elevated { color: #ff6d00; text-shadow: 0 0 20px rgba(255,109,0,0.4); }
+  .score-number.critical, .score-number.defcon { color: var(--red); text-shadow: var(--glow-red); }
+
+  .score-percent {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 400;
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    color: var(--dim);
+    margin-left: 4px;
+  }
+
+  .score-mood {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 6px 24px;
+    border-radius: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    border: 1px solid var(--red);
+    color: var(--red);
+    animation: pulse-border 2s infinite;
+  }
+
+  @keyframes pulse-border {
+    0%, 100% { border-color: var(--red); opacity: 1; }
+    50% { border-color: transparent; opacity: 0.7; }
+  }
+
+  /* Threat bar */
+  .threat-bar-wrap {
+    margin: 30px 0;
+    padding: 0 10px;
+  }
+
+  .threat-bar-labels {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--dim);
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  .threat-bar {
+    height: 8px;
+    background: var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .threat-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+    background: linear-gradient(90deg, var(--green), var(--amber), #ff6d00, var(--red));
+    transition: width 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+  }
+
+  .threat-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: -4px;
+    bottom: -4px;
+    width: 3px;
+    background: #fff;
+    border-radius: 2px;
+    box-shadow: 0 0 8px rgba(255,255,255,0.6);
+  }
+
+  /* Info panels */
+  .panels {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+
+  @media (max-width: 600px) {
+    .panels { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .panel-title {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--cyan);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel-title::before {
+    content: '▸';
+    color: var(--cyan);
+  }
+
+  .summary-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text);
+  }
+
+  .factors-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .factors-list li {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text);
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .factors-list li::before {
+    content: '⚡';
+    flex-shrink: 0;
+  }
+
+  /* Metadata bar */
+  .meta-bar {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 24px;
+    margin: 30px 0;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--dim);
+  }
+
+  .meta-item span {
+    color: var(--cyan);
+  }
+
+  /* Robot mascot */
+  .mascot-section {
+    text-align: center;
+    margin: 40px 0 20px;
+  }
+
+  .mascot-img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    border: 2px solid var(--border);
+    object-fit: cover;
+    filter: saturate(1.1);
+    transition: border-color 0.3s;
+  }
+
+  .mascot-img:hover {
+    border-color: var(--cyan);
+    box-shadow: var(--glow-cyan);
+  }
+
+  .mascot-name {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 4px;
+    color: var(--cyan);
+    margin-top: 12px;
+  }
+
+  .mascot-tagline {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--dim);
+    margin-top: 4px;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid var(--border);
+    margin-top: 40px;
+  }
+
+  .disclaimer {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--dim);
+    max-width: 500px;
+    margin: 0 auto 16px;
+    line-height: 1.6;
+    letter-spacing: 0.5px;
+  }
+
+  .footer-links {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+  }
+
+  .footer-links a {
+    color: var(--cyan);
+    text-decoration: none;
+    letter-spacing: 1px;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover { color: #fff; }
+
+  /* Loading state */
+  .loading .score-number {
+    animation: flicker 0.15s infinite alternate;
+  }
+
+  @keyframes flicker {
+    0% { opacity: 0.4; }
+    100% { opacity: 1; }
+  }
+
+  /* Trend indicator */
+  .trend-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.75rem;
+    margin-top: 10px;
+  }
+
+  .trend-indicator.up { color: var(--red); }
+  .trend-indicator.down { color: var(--green); }
+  .trend-indicator.stable { color: var(--amber); }
+
+  /* History sparkline */
+  .sparkline-wrap {
+    margin-top: 12px;
+  }
+
+  .sparkline-label {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--dim);
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  #sparkline {
+    width: 100%;
+    height: 50px;
+  }
+</style>
+</head>
+<body>
+<div class="grid-bg"></div>
+
+<div class="container">
+  <header class="header">
+    <div class="header-brand">Predictron Systems</div>
+    <h1 class="header-title">WW3 Probability Index</h1>
+    <div class="header-sub">Autonomous Geopolitical Threat Assessment</div>
+  </header>
+
+  <section class="score-panel loading" id="scorePanel">
+    <div class="score-label">Current Threat Level</div>
+    <div>
+      <span class="score-number" id="scoreNum">--.-</span><span class="score-percent">%</span>
+    </div>
+    <div class="trend-indicator stable" id="trendIndicator">
+      <span id="trendArrow">→</span>
+      <span id="trendLabel">LOADING</span>
+    </div>
+    <div class="score-mood" id="moodBadge">SCANNING</div>
+
+    <div class="sparkline-wrap" id="sparklineWrap" style="display:none">
+      <div class="sparkline-label">30-Day Trend</div>
+      <svg id="sparkline" viewBox="0 0 400 50" preserveAspectRatio="none"></svg>
+    </div>
+  </section>
+
+  <div class="threat-bar-wrap">
+    <div class="threat-bar-labels">
+      <span>0% CALM</span>
+      <span>25% TENSE</span>
+      <span>50% ELEVATED</span>
+      <span>75% CRITICAL</span>
+      <span>100%</span>
+    </div>
+    <div class="threat-bar">
+      <div class="threat-bar-fill" id="threatFill" style="width: 0%"></div>
+    </div>
+  </div>
+
+  <div class="panels">
+    <div class="panel">
+      <div class="panel-title">Situation Brief</div>
+      <p class="summary-text" id="summary">Awaiting data feed...</p>
+    </div>
+    <div class="panel">
+      <div class="panel-title">Key Drivers</div>
+      <ul class="factors-list" id="factors">
+        <li>Loading threat vectors...</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="meta-bar">
+    <div class="meta-item">Updated: <span id="metaTime">—</span></div>
+    <div class="meta-item">Headlines Scanned: <span id="metaCount">—</span></div>
+    <div class="meta-item">Model: <span>PRED-7X</span></div>
+  </div>
+
+  <section class="mascot-section">
+    <img src="assets/pred7x.jpeg" alt="PRED-7X Robot" class="mascot-img" onerror="this.style.display='none'">
+    <div class="mascot-name">PRED-7X</div>
+    <div class="mascot-tagline">Predictron Systems — Scanning News Since 2026</div>
+  </section>
+
+  <footer class="footer">
+    <p class="disclaimer">
+      ⚠️ DISCLAIMER: This index is generated by AI for entertainment purposes only.
+      It is NOT a credible geopolitical forecast. Do not make real-world decisions based on this data.
+      Stay informed through real journalism and official sources.
+    </p>
+    <div class="footer-links">
+      <a href="https://github.com/WW3Counter" target="_blank">GitHub</a>
+      <a href="https://x.com/WW3Counter" target="_blank">𝕏</a>
+    </div>
+  </footer>
+</div>
+
+<script>
+  const DATA_URL = 'data/index.json';
+  const HISTORY_URL = 'data/history.json';
+
+  function moodClass(mood) {
+    const m = (mood || '').toLowerCase();
+    if (m === 'calm') return 'calm';
+    if (m === 'tense') return 'tense';
+    if (m === 'elevated') return 'elevated';
+    if (m === 'critical' || m === 'defcon') return 'critical';
+    return 'tense';
+  }
+
+  function trendArrow(trend) {
+    const t = (trend || '').toLowerCase();
+    if (t === 'up') return { arrow: '▲', cls: 'up', label: 'ESCALATING' };
+    if (t === 'down') return { arrow: '▼', cls: 'down', label: 'DE-ESCALATING' };
+    return { arrow: '→', cls: 'stable', label: 'STABLE' };
+  }
+
+  function animateScore(target) {
+    const el = document.getElementById('scoreNum');
+    const start = 0;
+    const duration = 2000;
+    const startTime = performance.now();
+
+    function step(now) {
+      const elapsed = now - startTime;
+      const progress = Math.min(elapsed / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = start + (target - start) * eased;
+      el.textContent = current.toFixed(2);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  }
+
+  function drawSparkline(history) {
+    if (!history || history.length < 2) return;
+    const wrap = document.getElementById('sparklineWrap');
+    const svg = document.getElementById('sparkline');
+    wrap.style.display = 'block';
+
+    const scores = history.map(h => h.score);
+    const min = Math.max(0, Math.min(...scores) - 5);
+    const max = Math.min(100, Math.max(...scores) + 5);
+    const w = 400, h = 50;
+
+    const points = scores.map((s, i) => {
+      const x = (i / (scores.length - 1)) * w;
+      const y = h - ((s - min) / (max - min)) * h;
+      return `${x},${y}`;
+    });
+
+    svg.innerHTML = `
+      <defs>
+        <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(255,23,68,0.3)"/>
+          <stop offset="100%" stop-color="rgba(255,23,68,0)"/>
+        </linearGradient>
+      </defs>
+      <polygon points="0,${h} ${points.join(' ')} ${w},${h}" fill="url(#sg)"/>
+      <polyline points="${points.join(' ')}" fill="none" stroke="#ff1744" stroke-width="1.5" stroke-linejoin="round"/>
+    `;
+  }
+
+  async function load() {
+    try {
+      const res = await fetch(DATA_URL + '?t=' + Date.now());
+      const data = await res.json();
+
+      // Score
+      const panel = document.getElementById('scorePanel');
+      panel.classList.remove('loading');
+      const numEl = document.getElementById('scoreNum');
+      const mc = moodClass(data.mood);
+      numEl.className = 'score-number ' + mc;
+      animateScore(data.score);
+
+      // Trend
+      const t = trendArrow(data.trend);
+      const ti = document.getElementById('trendIndicator');
+      ti.className = 'trend-indicator ' + t.cls;
+      document.getElementById('trendArrow').textContent = t.arrow;
+      document.getElementById('trendLabel').textContent = t.label;
+
+      // Mood badge
+      const badge = document.getElementById('moodBadge');
+      badge.textContent = (data.mood || 'UNKNOWN').toUpperCase();
+      badge.style.borderColor = getComputedStyle(numEl).color;
+      badge.style.color = getComputedStyle(numEl).color;
+
+      // Threat bar
+      document.getElementById('threatFill').style.width = data.score + '%';
+
+      // Summary
+      document.getElementById('summary').textContent = data.summary || 'No summary available.';
+
+      // Factors
+      const fl = document.getElementById('factors');
+      if (data.top_factors && data.top_factors.length) {
+        fl.innerHTML = data.top_factors.map(f => `<li>${f}</li>`).join('');
+      }
+
+      // Meta
+      if (data.updated_at) {
+        const d = new Date(data.updated_at);
+        document.getElementById('metaTime').textContent = d.toLocaleString('en-US', {
+          month: 'short', day: 'numeric', year: 'numeric',
+          hour: '2-digit', minute: '2-digit', timeZoneName: 'short'
+        });
+      }
+      document.getElementById('metaCount').textContent = data.headlines_scanned || '—';
+
+    } catch (err) {
+      console.error('Failed to load index:', err);
+      document.getElementById('scoreNum').textContent = 'ERR';
+    }
+
+    // Load history for sparkline
+    try {
+      const hRes = await fetch(HISTORY_URL + '?t=' + Date.now());
+      const history = await hRes.json();
+      drawSparkline(history);
+    } catch { /* no history yet, that's fine */ }
+  }
+
+  load();
+  // Auto-refresh every 5 minutes
+  setInterval(load, 5 * 60 * 1000);
+</script>
+</body>
+</html>
